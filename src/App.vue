@@ -1,7 +1,40 @@
 <template>
 <div id='app'>
-  <img src='./assets/logo.png'>
-  <router-view></router-view>
+  <!-- Questions: display a div for each question -->
+  <!-- show only if the index of the question is equal to the question index -->
+  <div v-for="(quiz, index) in quizez" v-show="index === questionindex">
+    <!-- Display the quiz category -->
+    <h1>{{ quiz.category}}</h1>
+    <!-- Display the question -->
+    <h2> {{quiz.question}} </h2>
+    <!-- Responses: display a li for each possible response with a radio button -->
+    <ul>
+      <!-- display thr quiz options -->
+      <li v-for="answer in quiz.incorrect_answers">
+        <label>
+        <!-- bind the options to the array index of the answers array that matches this index -->
+        <input type="radio" name="answer" v-model="answers[index]" :value="answer">{{answer}}
+        </label>
+
+      </li>
+    </ul>
+  </div>
+  <!-- do not display if the question index exceeds the length of all quizez -->
+  <div v-if="questionindex < quizez.length">
+    <!-- display only if question index is greater than zero -->
+    <!-- onclick of this button, call the previous function, and show last question -->
+    <button v-if="questionindex > 0" v-on:click="prev">
+       Previous
+       </button>
+
+    <!-- onclick of this button, call the next function and show next question -->
+    <button v-on:click="next">
+       Next
+       </button>
+  </div>
+
+  <!-- show total score if the questions are completed -->
+  <span v-if="questionindex== quizez.length">Your total score is {{score}}/{{quizez.length}}</span>
 </div>
 </template>
 
